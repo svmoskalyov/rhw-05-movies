@@ -33,10 +33,10 @@ li {
   margin: 0;
 }
 
-ul {
+/* ul {
   list-style: none;
   padding: 0;
-}
+} */
 
 button {
   cursor: pointer;
