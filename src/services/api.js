@@ -30,6 +30,24 @@ export const getMovieId = async id => {
   return response.data;
 };
 
+export const getCasts = async id => {
+  const response = await axios.get(`movie/${id}/credits?`, {
+    params: {
+      api_key: '634387309f6bc4d8e17fedbf5dc6be14',
+    },
+  });
+  return response.data.cast;
+};
+
+export const getReviws = async id => {
+  const response = await axios.get(`movie/${id}/reviews?`, {
+    params: {
+      api_key: '634387309f6bc4d8e17fedbf5dc6be14',
+    },
+  });
+  return response.data.results;
+};
+
 /*
 const THE_KEY = '634387309f6bc4d8e17fedbf5dc6be14';
 
