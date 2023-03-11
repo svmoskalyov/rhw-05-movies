@@ -1,8 +1,9 @@
-import { Box } from 'components/Box';
-import { Searchbar } from 'components/Searchbar/Searchbar';
 import { useState, useEffect } from 'react';
 import { Outlet, Link, useParams, useLocation } from 'react-router-dom';
+import { Box } from 'components/Box';
+import { Searchbar } from 'components/Searchbar/Searchbar';
 import { getSearch } from 'services/api';
+import { List, Item } from './Movies.styled';
 
 const Movies = () => {
   const [request, setRequest] = useState('');
@@ -19,22 +20,24 @@ const Movies = () => {
   }, [request]);
 
   return (
-    <Box as="section" p={3}>
+    <Box as="main" p={3}>
       {movieId ? (
         <Outlet />
       ) : (
         <Box p={3}>
           <Searchbar onSubmit={setRequest} />
 
-          <ul>
-            {movies.map(({ id, title }) => (
-              <li key={id}>
-                <Link to={`${id}`} state={{ from: location }}>
-                  {title}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {movies.length > 0 && (
+            <List>
+              {movies.map(({ id, title }) => (
+                <Item key={id}>
+                  <Link to={`${id}`} state={{ from: location }}>
+                    {title}
+                  </Link>
+                </Item>
+              ))}
+            </List>
+          )}
         </Box>
       )}
     </Box>
