@@ -1,11 +1,19 @@
+import { useEffect, useState } from 'react';
+import { useParams, useLocation, Outlet } from 'react-router-dom';
 import { Box } from 'components/Box';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { useParams, useLocation, Outlet, Link } from 'react-router-dom';
 import { getMovieId } from 'services/api';
-import { NavItem } from './MovieDetails.styled';
+import {
+  NavItem,
+  SubNavItem,
+  Title,
+  Subtitle,
+  Text,
+  List,
+  Item,
+  Subtext,
+} from './MovieDetails.styled';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState([]);
   const location = useLocation();
@@ -18,49 +26,53 @@ export const MovieDetails = () => {
     return null;
   }
 
-  // console.log(movie);
-
-  const { title, popularity, overview } = movie;
-  // const { title, popularity, overview, genres } = movie;
+  const { poster_path, title, vote_average, overview, genres } = movie;
   const backLinkHref = location.state?.from ?? '/';
-
-  //   console.log(genres);
 
   return (
     <Box p={3}>
       <NavItem to={backLinkHref}>Go back</NavItem>
 
-      <Box p={3} borderBottom="1px solid black">
-        {/* <img src={poster_path} alt={title} width="240" /> */}
-        <h2>{title}</h2>
-        <p>{popularity}</p>
-        <h3>Overview</h3>
-        <p>{overview}</p>
-        <h3>Genres</h3>
-        {/* {genres.length > 0 && (
-        <ul>
-          {genres.map(({ id, name }) => (
-            <li key={id}>{name}</li>
+      <Box display="flex" p={4} borderBottom="1px solid black">
+        <img
+          loading="lazy"
+          src={
+            poster_path && `https://image.tmdb.org/t/p/original${poster_path}`
+          }
+          alt={title}
+          width="240"
+          height="360"
+        />
+        <Box pl={5}>
+          <Title>{title}</Title>
+          <Text>User scores: {vote_average?.toFixed(1)}</Text>
+          <Subtitle>Overview</Subtitle>
+          <Text>{overview}</Text>
+          <Subtitle>Genres</Subtitle>
+          {genres?.map(({ id, name }) => (
+            <Subtext key={id}>{name}</Subtext>
           ))}
-        </ul>
-      )} */}
-        {/* {genres.map(({ id, name }) => (
-        <span key={id}>{name} </span>
-      ))} */}
+        </Box>
       </Box>
       <Box p={3} borderBottom="1px solid black">
-        <h3>Additional information</h3>
-        <ul>
-          <li>
-            <Link to={'cast'}>Cast</Link>
-          </li>
-          <li>
-            <Link to={'reviews'}>Reviews</Link>
-          </li>
-        </ul>
+        <Subtitle>Additional information</Subtitle>
+        <List>
+          <Item>
+            <SubNavItem to={'cast'} state={{ from: backLinkHref }}>
+              Cast
+            </SubNavItem>
+          </Item>
+          <Item>
+            <SubNavItem to={'reviews'} state={{ from: backLinkHref }}>
+              Reviews
+            </SubNavItem>
+          </Item>
+        </List>
       </Box>
 
       <Outlet />
     </Box>
   );
 };
+
+export default MovieDetails;
