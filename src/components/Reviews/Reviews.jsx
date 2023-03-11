@@ -1,11 +1,12 @@
-import { Box } from 'components/Box';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Box } from 'components/Box';
 import { getReviws } from 'services/api';
+import { List, Item, Author, Content } from './Reviews.styled';
 
 export const Reviews = () => {
   const { movieId } = useParams();
-  const [reviws, setReviws] = useState([]);
+  const [reviews, setReviws] = useState([]);
 
   useEffect(() => {
     getReviws(movieId).then(setReviws);
@@ -13,14 +14,18 @@ export const Reviews = () => {
 
   return (
     <Box p={3}>
-      {reviws.length > 0
-        ? reviws.map(({ id, author, content }) => (
-            <li key={id}>
-              <b>{author}</b>
-              <p>{content}</p>
-            </li>
-          ))
-        : "We don't have any reviews for this movie."}
+      {reviews.length > 0 ? (
+        <List>
+          {reviews.map(({ id, author, content }) => (
+            <Item key={id}>
+              <Author>{author}</Author>
+              <Content>{content}</Content>
+            </Item>
+          ))}
+        </List>
+      ) : (
+        <Box p={3}>We don't have any reviews for this movie.</Box>
+      )}
     </Box>
   );
 };
