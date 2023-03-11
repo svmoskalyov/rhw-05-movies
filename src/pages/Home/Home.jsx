@@ -2,27 +2,31 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Box } from 'components/Box';
 import { getTrending } from 'services/api';
+import { Loader } from 'components/Loader/Loader';
+import { Title, List, Item } from './Home.styled';
 
 export const Home = () => {
   const [movies, setMovies] = useState([]);
-   const location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     getTrending().then(setMovies);
   }, []);
 
   return (
-    <Box as="section" p={3}>
-      <h2>Trending today</h2>
-      <ul>
+    <Box as="main" p={4}>
+      <Title>Trending today</Title>
+      {movies.length === 0 && <Loader />}
+
+      <List>
         {movies.map(({ id, title }) => (
-          <li key={id}>
+          <Item key={id}>
             <Link to={`movies/${id}`} state={{ from: location }}>
               {title}
             </Link>
-          </li>
+          </Item>
         ))}
-      </ul>
+      </List>
     </Box>
   );
 };
