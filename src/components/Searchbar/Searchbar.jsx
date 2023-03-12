@@ -1,6 +1,6 @@
 import { Formik, ErrorMessage } from 'formik';
 import { toast } from 'react-toastify';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Forma, Input, SearchButton, SearchLabel } from './Searchbar.styled';
 
 const initialValues = {
@@ -39,6 +39,6 @@ export const Searchbar = ({ onSubmit }) => {
   );
 };
 
-// Searchbar.propTypes = {
-//   onSubmit: PropTypes.func.isRequired,
-// };
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
