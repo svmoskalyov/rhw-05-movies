@@ -1,5 +1,5 @@
 import { Formik, ErrorMessage } from 'formik';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 // import PropTypes from 'prop-types';
 import { Forma, Input, SearchButton, SearchLabel } from './Searchbar.styled';
 
@@ -10,7 +10,7 @@ const initialValues = {
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = async (values, actions) => {
     if (values.search.trim() === '') {
-      // toast.warning('Please input name for search.');
+      toast.warning('Please input name for search.');
       alert('Please input name for search.');
       return;
     }
