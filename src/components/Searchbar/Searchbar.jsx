@@ -11,7 +11,6 @@ export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = async (values, actions) => {
     if (values.search.trim() === '') {
       toast.warning('Please input name for search.');
-      alert('Please input name for search.');
       return;
     }
 
