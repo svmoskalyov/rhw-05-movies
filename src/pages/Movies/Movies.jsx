@@ -1,23 +1,35 @@
 import { useState, useEffect } from 'react';
-import { Outlet, Link, useParams, useLocation } from 'react-router-dom';
+import {
+  Outlet,
+  Link,
+  useParams,
+  useLocation,
+  useSearchParams,
+} from 'react-router-dom';
 import { Box } from 'components/Box';
 import { Searchbar } from 'components/Searchbar/Searchbar';
 import { getSearch } from 'services/api';
 import { List, Item } from './Movies.styled';
 
 const Movies = () => {
-  const [request, setRequest] = useState('');
   const [movies, setMovies] = useState([]);
   const { movieId } = useParams();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const queryParam = searchParams.get('query') ?? '';
 
   useEffect(() => {
-    if (!request) {
+    if (!queryParam) {
+      setMovies([]);
       return;
     }
 
-    getSearch(request).then(setMovies);
-  }, [request]);
+    getSearch(queryParam).then(setMovies);
+  }, [queryParam]);
+
+  const changeSearch = value => {
+    setSearchParams(value !== '' ? { query: value } : {});
+  };
 
   return (
     <Box as="main" p={3}>
@@ -25,7 +37,7 @@ const Movies = () => {
         <Outlet />
       ) : (
         <Box p={3}>
-          <Searchbar onSubmit={setRequest} />
+          <Searchbar onSubmit={changeSearch} />
 
           {movies.length > 0 && (
             <List>
